@@ -103,6 +103,7 @@ public class FrescoModule extends ReactContextBaseJavaModule implements
         OkHttpImagePipelineConfigFactory.newBuilder(context.getApplicationContext(), okHttpClient);
 
     builder
+        .setNetworkFetcher(new NetworkFetcher(okHttpClient))
         .setDownsampleEnabled(false)
         .setRequestListeners(requestListeners);
 
