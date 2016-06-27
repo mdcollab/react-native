@@ -495,6 +495,8 @@ import static com.facebook.systrace.Systrace.TRACE_TAG_REACT_JAVA_BRIDGE;
                 Assertions.assertNotNull(mCurrentReactContext).getNativeModule(DeviceEventManagerModule.class);
         deviceEventManagerModule.emitNewIntentReceived(uri);
       }
+
+      mCurrentReactContext.onNewIntent(mCurrentActivity, intent);
     }
   }
 
@@ -894,7 +896,6 @@ import static com.facebook.systrace.Systrace.TRACE_TAG_REACT_JAVA_BRIDGE;
     if (mBridgeIdleDebugListener != null) {
       catalystInstance.addBridgeIdleDebugListener(mBridgeIdleDebugListener);
     }
-
 
     ReactMarker.logMarker(RUN_JS_BUNDLE_START);
     try {
