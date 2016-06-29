@@ -5,6 +5,7 @@ package com.facebook.react.uimanager;
 import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.annotations.ReactProp;
@@ -28,6 +29,7 @@ public abstract class BaseViewManager<T extends View, C extends LayoutShadowNode
   private static final String PROP_TRANSFORM = "transform";
   private static final String PROP_OPACITY = "opacity";
   private static final String PROP_ELEVATION = "elevation";
+  private static final String PROP_Z_INDEX = "zIndex";
   private static final String PROP_RENDER_TO_HARDWARE_TEXTURE = "renderToHardwareTextureAndroid";
   private static final String PROP_ACCESSIBILITY_LABEL = "accessibilityLabel";
   private static final String PROP_ACCESSIBILITY_COMPONENT_TYPE = "accessibilityComponentType";
@@ -82,6 +84,12 @@ public abstract class BaseViewManager<T extends View, C extends LayoutShadowNode
       view.setElevation(PixelUtil.toPixelFromDIP(elevation));
     }
     // Do nothing on API < 21
+  }
+
+  @ReactProp(name = PROP_Z_INDEX)
+  public void setZIndex(T view, float zIndex) {
+    int integerZIndex = Math.round(zIndex);
+    ViewGroupManager.setViewZIndex(view, integerZIndex);
   }
 
   @ReactProp(name = PROP_RENDER_TO_HARDWARE_TEXTURE)
