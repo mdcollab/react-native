@@ -14,10 +14,8 @@ jest.mock('path');
 const Promise = require('promise');
 const Resolver = require('../');
 
-const path = require('path');
-
-let DependencyGraph = jest.fn();
-jest.setMock('node-haste', DependencyGraph);
+const DependencyGraph = jest.fn();
+jest.setMock('../../node-haste', DependencyGraph);
 let Module;
 let Polyfill;
 
@@ -36,7 +34,7 @@ describe('Resolver', function() {
       return polyfill;
     });
 
-    DependencyGraph.replacePatterns = require.requireActual('node-haste/lib/lib/replacePatterns');
+    DependencyGraph.replacePatterns = require.requireActual('../../node-haste/lib/replacePatterns');
     DependencyGraph.prototype.createPolyfill = jest.fn();
     DependencyGraph.prototype.getDependencies = jest.fn();
 
