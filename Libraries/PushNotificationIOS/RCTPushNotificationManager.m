@@ -46,6 +46,9 @@ NSString *const RCTErrorUnableToRequestPermissions = @"E_UNABLE_TO_REQUEST_PERMI
   if (details[@"applicationIconBadgeNumber"]) {
     notification.applicationIconBadgeNumber = [RCTConvert NSInteger:details[@"applicationIconBadgeNumber"]];
   }
+  if (details[@"repeatInterval"]) {
+    notification.repeatInterval = [RCTConvert NSInteger:details[@"repeatInterval"]];
+  }
   return notification;
 }
 
