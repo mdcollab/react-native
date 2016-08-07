@@ -37,6 +37,9 @@ NSString *const RCTErrorRemoteNotificationRegistrationFailed = @"E_FAILED_TO_REG
   if (details[@"applicationIconBadgeNumber"]) {
     notification.applicationIconBadgeNumber = [RCTConvert NSInteger:details[@"applicationIconBadgeNumber"]];
   }
+  if (details[@"repeatInterval"]) {
+    notification.repeatInterval = [RCTConvert NSInteger:details[@"repeatInterval"]];
+  }
   return notification;
 }
 
