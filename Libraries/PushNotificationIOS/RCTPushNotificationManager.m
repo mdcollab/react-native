@@ -239,6 +239,38 @@ RCT_EXPORT_METHOD(getApplicationIconBadgeNumber:(RCTResponseSenderBlock)callback
   callback(@[@(RCTSharedApplication().applicationIconBadgeNumber)]);
 }
 
+- (UIMutableUserNotificationAction *)actionFromJSON:(NSDictionary *)opts
+{
+    UIMutableUserNotificationAction *action;
+    action = [[UIMutableUserNotificationAction alloc] init];
+    [action setActivationMode: [RCTConvert UIUserNotificationActivationMode:opts[@"activationMode"]]];
+    [action setBehavior: [RCTConvert UIUserNotificationActionBehavior:opts[@"behavior"]]];
+    [action setTitle:opts[@"title"]];
+    [action setIdentifier:opts[@"identifier"]];
+    [action setDestructive:[RCTConvert BOOL:opts[@"destructive"]]];
+    [action setAuthenticationRequired:[RCTConvert BOOL:opts[@"authenticationRequired"]]];
+    return action;
+}
+
+- (UIUserNotificationCategory *)categoryFromJSON:(NSDictionary *)json
+{
+    UIMutableUserNotificationCategory *category;
+    category = [[UIMutableUserNotificationCategory alloc] init];
+    [category setIdentifier:[RCTConvert NSString:json[@"identifier"]]];
+
+    // Get the actions from the category
+    NSMutableArray *actions;
+    actions = [[NSMutableArray alloc] init];
+    for (NSDictionary *actionJSON in [RCTConvert NSArray:json[@"actions"]]) {
+        [actions addObject:[self actionFromJSON:actionJSON]];
+    }
+
+    // Set these actions for this context
+    [category setActions:actions
+              forContext:[RCTConvert UIUserNotificationActionContext:json[@"context"]]];
+    return category;
+}
+
 RCT_EXPORT_METHOD(requestPermissions:(NSDictionary *)permissions
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject)
