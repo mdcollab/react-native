@@ -239,7 +239,7 @@ class PushNotificationIOS {
     alert?: boolean,
     badge?: boolean,
     sound?: boolean
-  }): Promise<{
+  }, categories): Promise<{
     alert: boolean,
     badge: boolean,
     sound: boolean
@@ -258,7 +258,7 @@ class PushNotificationIOS {
         sound: true
       };
     }
-    return RCTPushNotificationManager.requestPermissions(requestedPermissions);
+    return RCTPushNotificationManager.requestPermissions(requestedPermissions, categories);
   }
 
   /**
