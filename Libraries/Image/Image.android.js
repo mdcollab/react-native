@@ -61,7 +61,6 @@ var ImageViewAttributes = merge(ReactNativeViewAttributes.UIView, {
   progressiveRenderingEnabled: true,
   fadeDuration: true,
   shouldNotifyLoadEvents: true,
-  headers: true,
 });
 
 var Image = React.createClass({
