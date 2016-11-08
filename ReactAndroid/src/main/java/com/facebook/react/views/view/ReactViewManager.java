@@ -163,7 +163,7 @@ public class ReactViewManager extends ViewGroupManager<ReactViewGroup> {
   }
 
   @Override
-  public void setTransform(T view, ReadableMap decomposedMatrix) {
+  public void setTransform(ReactViewGroup view, ReadableMap decomposedMatrix) {
     super.setTransform(view, decomposedMatrix);
     view.rememberDecomposedMatrix(decomposedMatrix);
   }
