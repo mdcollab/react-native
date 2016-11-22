@@ -31,27 +31,6 @@ NSString *const RCTRegisterUserNotificationSettings = @"RegisterUserNotification
 
 NSString *const RCTErrorUnableToRequestPermissions = @"E_UNABLE_TO_REQUEST_PERMISSIONS";
 
-@implementation RCTConvert (UIUserNotificationActivationMode)
-RCT_ENUM_CONVERTER(UIUserNotificationActivationMode, (@{
-  @"foreground": @(UIUserNotificationActivationModeForeground),
-  @"background": @(UIUserNotificationActivationModeBackground),
-}), UIUserNotificationActivationModeForeground, integerValue)
-@end
-
-@implementation RCTConvert (UIUserNotificationActionBehavior)
-RCT_ENUM_CONVERTER(UIUserNotificationActionBehavior, (@{
-  @"default": @(UIUserNotificationActionBehaviorDefault),
-  @"textInput": @(UIUserNotificationActionBehaviorTextInput),
-}), UIUserNotificationActionBehaviorDefault, integerValue)
-@end
-
-@implementation RCTConvert (UIUserNotificationActionContext)
-RCT_ENUM_CONVERTER(UIUserNotificationActionContext, (@{
-  @"default": @(UIUserNotificationActionContextDefault),
-  @"minimal": @(UIUserNotificationActionContextMinimal),
-}), UIUserNotificationActionContextDefault, integerValue)
-@end
-
 @implementation RCTConvert (UILocalNotification)
 
 + (UILocalNotification *)UILocalNotification:(id)json
