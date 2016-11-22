@@ -274,7 +274,6 @@ RCT_EXPORT_METHOD(getApplicationIconBadgeNumber:(RCTResponseSenderBlock)callback
 }
 
 RCT_EXPORT_METHOD(requestPermissions:(NSDictionary *)permissions
-                 categories:(NSArray *)categoryJsonArray
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject)
 {
@@ -305,15 +304,10 @@ RCT_EXPORT_METHOD(requestPermissions:(NSDictionary *)permissions
     types = UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound;
   }
 
-  NSMutableArray *categories = [[NSMutableArray alloc] init];
-  for (NSDictionary *categoryJSON in categoryJsonArray) {
-    [categories addObject:[self categoryFromJSON:categoryJSON]];
-  }
-
   UIApplication *app = RCTSharedApplication();
   if ([app respondsToSelector:@selector(registerUserNotificationSettings:)]) {
     UIUserNotificationSettings *notificationSettings =
-      [UIUserNotificationSettings settingsForTypes:(NSUInteger)types categories:[NSSet setWithArray:categories]];
+      [UIUserNotificationSettings settingsForTypes:(NSUInteger)types categories:nil];
     [app registerUserNotificationSettings:notificationSettings];
   } else {
     [app registerForRemoteNotificationTypes:(NSUInteger)types];
