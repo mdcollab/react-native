@@ -50,6 +50,7 @@ const {PropTypes} = React;
  */
 const SwipeableListView = React.createClass({
   statics: {
+    DataSource: SwipeableListViewDataSource,
     getNewDataSource(): Object {
       return new SwipeableListViewDataSource({
         getRowData: (data, sectionID, rowID) => data[sectionID][rowID],
