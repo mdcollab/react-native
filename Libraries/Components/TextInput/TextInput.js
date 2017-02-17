@@ -482,7 +482,7 @@ const TextInput = React.createClass({
      * see [Issue#7070](https://github.com/facebook/react-native/issues/7070)
      * for more detail.
      *
-     * [Styles](/react-native/docs/style.html)
+     * [Styles](docs/style.html)
      */
     style: Text.propTypes.style,
     /**
@@ -771,9 +771,11 @@ const TextInput = React.createClass({
   _onChange: function(event: Event) {
     // Make sure to fire the mostRecentEventCount first so it is already set on
     // native when the text value is set.
-    this._inputRef.setNativeProps({
-      mostRecentEventCount: event.nativeEvent.eventCount,
-    });
+    if (this._inputRef) {
+      this._inputRef.setNativeProps({
+        mostRecentEventCount: event.nativeEvent.eventCount,
+      });
+    }
 
     var text = event.nativeEvent.text;
     this.props.onChange && this.props.onChange(event);
@@ -824,7 +826,7 @@ const TextInput = React.createClass({
       nativeProps.selection = this.props.selection;
     }
 
-    if (Object.keys(nativeProps).length > 0) {
+    if (Object.keys(nativeProps).length > 0 && this._inputRef) {
       this._inputRef.setNativeProps(nativeProps);
     }
 

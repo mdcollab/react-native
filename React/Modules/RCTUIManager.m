@@ -413,6 +413,12 @@ dispatch_queue_t RCTGetUIManagerQueue(void)
                                                     userInfo:@{RCTUIManagerRootViewKey: rootView}];
 }
 
+- (NSString *)viewNameForReactTag:(NSNumber *)reactTag
+{
+  RCTAssertThread(RCTGetUIManagerQueue(), @"viewNameForReactTag can only be called from the shadow queue");
+  return _shadowViewRegistry[reactTag].viewName;
+}
+
 - (UIView *)viewForReactTag:(NSNumber *)reactTag
 {
   RCTAssertMainQueue();
@@ -467,11 +473,12 @@ dispatch_queue_t RCTGetUIManagerQueue(void)
   NSNumber *reactTag = view.reactTag;
   dispatch_async(RCTGetUIManagerQueue(), ^{
     RCTShadowView *shadowView = self->_shadowViewRegistry[reactTag];
-    RCTAssert(shadowView != nil, @"Could not locate root view with tag #%@", reactTag);
+    RCTAssert(shadowView != nil, @"Could not locate view with tag #%@", reactTag);
 
-    shadowView.intrinsicContentSize = size;
-
-    [self setNeedsLayout];
+    if (!CGSizeEqualToSize(shadowView.intrinsicContentSize, size)) {
+      shadowView.intrinsicContentSize = size;
+      [self setNeedsLayout];
+    }
   });
 }
 
@@ -1053,6 +1060,16 @@ RCT_EXPORT_METHOD(updateView:(nonnull NSNumber *)reactTag
   }];
 }
 
+- (void)synchronouslyUpdateViewOnUIThread:(NSNumber *)reactTag
+                                 viewName:(NSString *)viewName
+                                    props:(NSDictionary *)props
+{
+  RCTAssertMainQueue();
+  RCTComponentData *componentData = _componentDataByName[viewName];
+  UIView *view = _viewRegistry[reactTag];
+  [componentData setProps:props forView:view];
+}
+
 RCT_EXPORT_METHOD(focus:(nonnull NSNumber *)reactTag)
 {
   [self addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
@@ -1212,15 +1229,15 @@ RCT_EXPORT_METHOD(measure:(nonnull NSNumber *)reactTag
     // By convention, all coordinates, whether they be touch coordinates, or
     // measurement coordinates are with respect to the root view.
     CGRect frame = view.frame;
-    CGPoint pagePoint = [view.superview convertPoint:frame.origin toView:rootView];
+    CGRect globalBounds = [view convertRect:view.bounds toView:rootView];
 
     callback(@[
       @(frame.origin.x),
       @(frame.origin.y),
-      @(frame.size.width),
-      @(frame.size.height),
-      @(pagePoint.x),
-      @(pagePoint.y)
+      @(globalBounds.size.width),
+      @(globalBounds.size.height),
+      @(globalBounds.origin.x),
+      @(globalBounds.origin.y),
     ]);
   }];
 }
