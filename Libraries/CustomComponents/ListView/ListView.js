@@ -518,7 +518,7 @@ var ListView = React.createClass({
             )}
           />
         );
-        sectionFooterIndices.push(totalIndex++);
+        stickySectionFooterIndices.push(totalIndex++);
       }
 
       if (rowCount >= this.state.curRenderedRowsCount) {
