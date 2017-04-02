@@ -713,6 +713,9 @@ var ListView = React.createClass({
           changedRows[sectionID][rowID] = true;
         }
       }
+      if (this.props.renderSectionFooter) {
+        totalIndex++;
+      }
       if (!isEmpty(visibleSection)) {
         this._visibleRows[sectionID] = visibleSection;
       } else if (this._visibleRows[sectionID]) {
