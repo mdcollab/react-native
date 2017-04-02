@@ -425,7 +425,7 @@ var ListView = React.createClass({
     for (var sectionIdx = 0; sectionIdx < allRowIDs.length; sectionIdx++) {
       var sectionID = dataSource.sectionIdentities[sectionIdx];
       var rowIDs = allRowIDs[sectionIdx];
-      var rowCountChanged = rowCount >= this._prevRenderedRowsCount;
+      var rowCountChanged = rowCount !== this._prevRenderedRowsCount;
 
       if (rowIDs.length === 0) {
         if (this.props.enableEmptySections === undefined) {
