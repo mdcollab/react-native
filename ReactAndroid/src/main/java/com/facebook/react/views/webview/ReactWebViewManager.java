@@ -346,6 +346,12 @@ public class ReactWebViewManager extends SimpleViewManager<WebView> {
       public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
         callback.invoke(origin, true, false);
       }
+
+      // to use the camera
+      @Override
+      public void onPermissionRequest(final PermissionRequest request) {
+        request.grant(request.getResources());
+      }
     });
     reactContext.addLifecycleEventListener(webView);
     mWebViewConfig.configWebView(webView);
