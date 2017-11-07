@@ -314,10 +314,13 @@ public class ReactWebViewManager extends SimpleViewManager<WebView> {
        * such that the camera is free to use by other apps.
        * see https://github.com/googlearchive/chromium-webview-samples/blob/master/webrtc-example/app/src/main/java/com/google/chrome/android/webrtcsample/MainActivity.java
        */
-      evaluateJavascript("if(window.localStream){window.localStream.stop();}", null);
-
-      setWebViewClient(null);
-      destroy();
+      evaluateJavascript("if(window.localStream){window.localStream.stop();}", new ValueCallback<String>() {
+        @Override
+        public void onReceiveValue(String value) {
+          setWebViewClient(null);
+          destroy();
+        }
+      });
     }
   }
 
